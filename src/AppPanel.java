@@ -7,22 +7,24 @@ import javax.swing.*;
 import javax.swing.event.*;
 
 public class AppPanel extends JPanel implements ActionListener {
-    private JLabel jcomp1;
+
     private JComboBox fromCurrCode;
     private JComboBox toCurrCode;
     private JTextField exchangeValue;
-    private JButton exchange;
-    private JLabel jcomp6;
-    private JLabel jcomp7;
-    private JLabel jcomp8;
     private JLabel exchangeResult;
-    private JLabel jcomp10;
     private ExchangeManager exchangeManager;
 
     public AppPanel(String filePath) {
+        JLabel jcomp1;
+        JLabel jcomp6;
+        JLabel jcomp7;
+        JLabel jcomp8;
+        JButton exchange;
+
+        JLabel jcomp10;
 
         exchangeManager = new ExchangeManager(filePath);
-        //construct components
+
         jcomp1 = new JLabel ("KANTOR");
         fromCurrCode = new JComboBox (CurrencyDataManager.getInstance(filePath).getCurrencyCodes());
         toCurrCode = new JComboBox (CurrencyDataManager.getInstance(filePath).getCurrencyCodes());
@@ -35,11 +37,11 @@ public class AppPanel extends JPanel implements ActionListener {
         jcomp10 = new JLabel ("Wybierz walutę, na którą chcesz wymienić");
         exchange.addActionListener(this);
 
-        //adjust size and set layout
+
         setPreferredSize (new Dimension (752, 425));
         setLayout (null);
 
-        //add components
+
         add (jcomp1);
         add (fromCurrCode);
         add (toCurrCode);
@@ -50,8 +52,9 @@ public class AppPanel extends JPanel implements ActionListener {
         add (jcomp8);
         add (exchangeResult);
         add (jcomp10);
+        Font labelFont = new Font("Arial", Font.PLAIN, 24);
+        jcomp1.setFont(labelFont);
 
-        //set component bounds (only needed by Absolute Positioning)
         jcomp1.setBounds (325, 25, 160, 55);
         fromCurrCode.setBounds (145, 120, 155, 45);
         toCurrCode.setBounds (410, 115, 165, 50);

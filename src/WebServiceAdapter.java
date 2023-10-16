@@ -6,7 +6,6 @@ import java.net.URL;
 public class WebServiceAdapter {
 
     private static WebServiceAdapter webServiceAdapter = null;
-    String url;
     private WebServiceAdapter(){
     }
 

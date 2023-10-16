@@ -5,7 +5,7 @@ public class CurrencyDataManager {
     private static CurrencyDataManager currencyDataManager;
     private TreeMap<String, BigDecimal> currencyExchangeRates;
     private CurrencyDataManager(String filePath){
-            currencyExchangeRates = XMLParser.ParseXMLFile(filePath);
+            currencyExchangeRates = XMLParser.parseXMLFile(filePath);
             currencyExchangeRates.put("PLN", new BigDecimal("1"));
     }
     public static CurrencyDataManager getInstance(String filePath){
