@@ -81,7 +81,7 @@ public class AppPanel extends JPanel implements ActionListener {
         String toCurrency = (String) toCurrCode.getSelectedItem();
         String exchangeValueString = exchangeValue.getText().contains(",") ? exchangeValue.getText().replace(",", ".") : exchangeValue.getText();
         BigDecimal exchangeValueDecimal = new BigDecimal(exchangeValueString);
-        String result = exchangeManager.calculateExchange(exchangeValueDecimal, fromCurrency, toCurrency).toString();
+        String result = exchangeManager.calculateExchange(exchangeValueDecimal, fromCurrency, toCurrency).toString() + " " + toCurrency;
 
         exchangeResult.setText(result);
 

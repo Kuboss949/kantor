@@ -9,7 +9,6 @@ public class ExchangeManager{
     }
     public BigDecimal calculateExchange(BigDecimal value, String fromCurrency, String toCurrency){
 
-        BigDecimal result;
         BigDecimal rateFrom;
         BigDecimal rateTo;
 
@@ -18,7 +17,6 @@ public class ExchangeManager{
         if (fromCurrency.equals(toCurrency)) {
             return value;
         } else {
-            // Convert between two non-PLN currencies
             BigDecimal plnValue = value.multiply(rateFrom);
             return plnValue.divide(rateTo, 2, RoundingMode.DOWN);
         }

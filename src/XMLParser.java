@@ -13,8 +13,8 @@ import java.util.TreeMap;
 
 
 public class XMLParser {
-    public static TreeMap<String, BigDecimal> parseXMLFile(String path){
-        TreeMap<String, BigDecimal> currencyExchangeRates = new TreeMap<>();
+    public static TreeMap<String, Currency> parseXMLFile(String path){
+        TreeMap<String, Currency> currencyExchangeRates = new TreeMap<>();
         try {
             DocumentBuilder builder = null;
             builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -29,7 +29,7 @@ public class XMLParser {
                 Element ConvFactor = (Element) position.getElementsByTagName("przelicznik").item(0);
                 Element course = (Element) position.getElementsByTagName("kurs_sredni").item(0);
                 BigDecimal decimalCourse = parseToBigDecimal(course.getTextContent(), ConvFactor.getTextContent());
-                currencyExchangeRates.put(code.getTextContent(), decimalCourse);
+                currencyExchangeRates.put(code.getTextContent(), new Currency(code.getTextContent(), decimalCourse));
             }
 
 
