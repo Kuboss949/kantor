@@ -6,15 +6,14 @@ import java.util.regex.Pattern;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class AppPanel extends JPanel implements ActionListener {
+public class AppPanel extends JPanel{
 
     private JComboBox fromCurrCode;
     private JComboBox toCurrCode;
     private JTextField exchangeValue;
     private JLabel exchangeResult;
-    private ExchangeManager exchangeManager;
 
-    public AppPanel(String filePath) {
+    public AppPanel() {
         JLabel jcomp1;
         JLabel jcomp6;
         JLabel jcomp7;
@@ -23,19 +22,18 @@ public class AppPanel extends JPanel implements ActionListener {
 
         JLabel jcomp10;
 
-        exchangeManager = new ExchangeManager(filePath);
 
-        jcomp1 = new JLabel ("KANTOR");
-        fromCurrCode = new JComboBox (CurrencyDataManager.getInstance(filePath).getCurrencyCodes());
-        toCurrCode = new JComboBox (CurrencyDataManager.getInstance(filePath).getCurrencyCodes());
+        jcomp1 = new JLabel ("MONEY CHANGER");
+        fromCurrCode = new JComboBox (CurrencyDataManager.getInstance().getCurrencyCodes());
+        toCurrCode = new JComboBox (CurrencyDataManager.getInstance().getCurrencyCodes());
         exchangeValue = new JTextField (20);
-        exchange = new JButton ("Wymień");
-        jcomp6 = new JLabel ("Otrzymana ilość waluty:");
-        jcomp7 = new JLabel ("Wybierz walutę do wymiany:");
-        jcomp8 = new JLabel ("Podaj ilość:");
+        exchange = new JButton ("Exchange");
+        jcomp6 = new JLabel ("Value after exchange:");
+        jcomp7 = new JLabel ("FROM:");
+        jcomp8 = new JLabel ("Amount:");
         exchangeResult = new JLabel ("0");
-        jcomp10 = new JLabel ("Wybierz walutę, na którą chcesz wymienić");
-        exchange.addActionListener(this);
+        jcomp10 = new JLabel ("TO:");
+        exchange.addActionListener(new ExchangeAction(this));
 
 
         setPreferredSize (new Dimension (752, 425));
@@ -55,7 +53,7 @@ public class AppPanel extends JPanel implements ActionListener {
         Font labelFont = new Font("Arial", Font.PLAIN, 24);
         jcomp1.setFont(labelFont);
 
-        jcomp1.setBounds (325, 25, 160, 55);
+        jcomp1.setBounds (250, 25, 300, 55);
         fromCurrCode.setBounds (145, 120, 155, 45);
         toCurrCode.setBounds (410, 115, 165, 50);
         exchangeValue.setBounds (145, 215, 155, 35);
@@ -67,23 +65,27 @@ public class AppPanel extends JPanel implements ActionListener {
         jcomp10.setBounds (410, 85, 245, 25);
 
     }
+    public static void main(String[] args) {
+        JFrame frame = new JFrame ("MyPanel");
+        frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+        frame.getContentPane().add (new AppPanel());
+        frame.pack();
+        frame.setVisible (true);
+    }
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String regex = "^[0-9]+([,.][0-9]{1,2})?$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(exchangeValue.getText());
-        if (!matcher.matches()) {
-            JOptionPane.showMessageDialog(this, "Please provide proper number.", "Wrong input", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
-        String fromCurrency = (String) fromCurrCode.getSelectedItem();
-        String toCurrency = (String) toCurrCode.getSelectedItem();
-        String exchangeValueString = exchangeValue.getText().contains(",") ? exchangeValue.getText().replace(",", ".") : exchangeValue.getText();
-        BigDecimal exchangeValueDecimal = new BigDecimal(exchangeValueString);
-        String result = exchangeManager.calculateExchange(exchangeValueDecimal, fromCurrency, toCurrency).toString() + " " + toCurrency;
+    public JComboBox getFromCurrCode() {
+        return fromCurrCode;
+    }
 
-        exchangeResult.setText(result);
+    public JComboBox getToCurrCode() {
+        return toCurrCode;
+    }
 
+    public JTextField getExchangeValue() {
+        return exchangeValue;
+    }
+
+    public JLabel getExchangeResult() {
+        return exchangeResult;
     }
 }

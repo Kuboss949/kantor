@@ -1,19 +1,12 @@
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.math.RoundingMode;
 
-public class ExchangeManager{
-    private CurrencyDataManager currencyDataManager;
-    public ExchangeManager(String filePath){
-        currencyDataManager = CurrencyDataManager.getInstance(filePath);
-    }
-    public BigDecimal calculateExchange(BigDecimal value, String fromCurrency, String toCurrency){
-
+public class ExchangeManager {
+    public BigDecimal calculateExchange(BigDecimal value, String fromCurrency, String toCurrency) {
         BigDecimal rateFrom;
         BigDecimal rateTo;
-
-        rateFrom = currencyDataManager.getCurrencyExchangeRate(fromCurrency);
-        rateTo = currencyDataManager.getCurrencyExchangeRate(toCurrency);
+        rateFrom = CurrencyDataManager.getInstance().getCurrencyExchangeRate(fromCurrency);
+        rateTo = CurrencyDataManager.getInstance().getCurrencyExchangeRate(toCurrency);
         if (fromCurrency.equals(toCurrency)) {
             return value;
         } else {
@@ -21,7 +14,6 @@ public class ExchangeManager{
             return plnValue.divide(rateTo, 2, RoundingMode.DOWN);
         }
     }
-
 
 
 }

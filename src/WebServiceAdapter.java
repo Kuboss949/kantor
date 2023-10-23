@@ -1,4 +1,12 @@
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
+
+import javax.print.Doc;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
@@ -16,23 +24,18 @@ public class WebServiceAdapter {
         return webServiceAdapter;
     }
 
-    public void downloadFile(String fileUrl, String dest){
+    public Document downloadFile(){
+        String fileUrl = "https://www.nbp.pl/kursy/xml/lasta.xml";
+        DocumentBuilder builder = null;
+        Document doc = null;
         try {
-            URL url = new URL(fileUrl);
-            try (BufferedInputStream in = new BufferedInputStream(url.openStream());
-                 FileOutputStream fileOutputStream = new FileOutputStream(dest)) {
-                byte[] dataBuffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
-                    fileOutputStream.write(dataBuffer, 0, bytesRead);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            doc = builder.parse(fileUrl);
+        } catch (IOException | ParserConfigurationException | SAXException e) {
+            ErrorHandler.handleError(e);
+            System.exit(1);
         }
-
-
-
+        return doc;
     }
 
 }
